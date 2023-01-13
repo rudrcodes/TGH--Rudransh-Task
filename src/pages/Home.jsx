@@ -49,6 +49,7 @@ export const Home = () => {
   const quotes = useSelector((state) => state.quotes.quotes);
   const dispatch = useDispatch();
   const [quote, setQuote] = useState(null);
+  const [id, setId] = useState(null);
   const [author, setAuthor] = useState(null);
   const [onLoadquote, setOnLoadQuote] = useState("onLoad");
   //TODO - Bookmark quotes
@@ -96,10 +97,11 @@ export const Home = () => {
     axios
       .get(`https://api.quotable.io/random?tags=${tagValue}`)
       .then((res) => {
+        // console.log(res.data);
         setQuote(res.data.content);
         setAuthor(res.data.author);
+        setId(res.data._id);
 
-        // console.log(res.data.content);
         // console.log(res.data.tags);
       })
       .catch((err) => {
@@ -111,10 +113,10 @@ export const Home = () => {
     // console.log("randomQuote");
   };
   const savedQuoteArr = [];
-  const saveQuote = (quote) => {
+  const saveQuote = (quote, author, id) => {
     dispatch(
       addQuotes({
-        id: quotes[quotes.length - 1] ? quotes[quotes.length - 1].id + 1 : 0,
+        id: id,
         quote: quote,
         author: author,
       })
@@ -144,7 +146,7 @@ export const Home = () => {
           <Quote>
             <h2>{quote}</h2>
             <p>~ {author}</p>
-            <button onClick={() => saveQuote(quote, author)}>
+            <button onClick={() => saveQuote(quote, author, id)}>
               <img src={bookmarkImg} alt="bookmark" />
             </button>
           </Quote>
