@@ -6,11 +6,38 @@ import "react-dropdown/style.css";
 import { addQuotes } from "../features/quotes/quotes";
 import { useDispatch, useSelector } from "react-redux";
 import { Loader } from "../components/Loader";
-
+import styled from "styled-components";
+import { Navbar } from "../components/Navbar";
+const Quote = styled.div`
+  background-color: #003566;
+  /* color: #000; */
+  border: none;
+  border-radius: 10px;
+  padding: 8px 15px;
+  text-align: center;
+  /* width: 80%; */
+  line-height: 1.2;
+`;
+const QuoteHolder = styled.div`
+  text-align: center;
+  /* width: 80vw; */
+  margin: 30px;
+`;
+const Cont = styled.div`
+  /* background-color: red; */
+  height: 60vh;
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
 export const Home = () => {
   const quotes = useSelector((state) => state.quotes.quotes);
   const dispatch = useDispatch();
   const [quote, setQuote] = useState(null);
+  const [author, setAuthor] = useState(null);
   const [onLoadquote, setOnLoadQuote] = useState("onLoad");
   //TODO - Bookmark quotes
   const [saveQuotes, setSaveQuotes] = useState([]);
@@ -33,28 +60,20 @@ export const Home = () => {
       });
     setTagsList(tagArray);
   };
-  // loadOptions();
   const options = tagsList;
-  // const options = [
-  //   "athletics",
-  //   "business",
-  //   "change",
-  //   "character",
-  //   "education",
-  //   "film",
-  //   "happiness",
-  // ];
+
   const defaultOption = options[1];
   const [tagValue, setTagValue] = useState(defaultOption);
   useEffect(() => {
     axios
-      // .get(`https://api.quotable.io/random?tags=${tagValue}`)
       .get("https://api.quotable.io/random")
       .then((res) => {
-        setOnLoadQuote(res.data.content);
+        setQuote(res.data.content);
         console.log(res.data.content);
+        console.log(res.data);
+        setAuthor(res.data.author);
+
         console.log(res.data.tags);
-        // console.log(res.tags);
       })
       .catch((err) => {
         alert(err);
@@ -64,9 +83,10 @@ export const Home = () => {
   const randomQuote = () => {
     axios
       .get(`https://api.quotable.io/random?tags=${tagValue}`)
-      // .get("https://api.quotable.io/random")
       .then((res) => {
         setQuote(res.data.content);
+        setAuthor(res.data.author);
+
         console.log(res.data.content);
         console.log(res.data.tags);
       })
@@ -82,25 +102,21 @@ export const Home = () => {
       addQuotes({
         id: quotes[quotes.length - 1] ? quotes[quotes.length - 1].id + 1 : 0,
         quote: quote,
+        author: author,
       })
     );
     console.log(savedQuoteArr);
-    // console.log(`saved Quote : ${quote}`);
     savedQuoteArr.push(quote);
     setSaveQuotes([...savedQuoteArr]);
   };
   console.log(saveQuotes);
   return (
-    <>
-    
-      {/* <Link to="/bookmark" >
-       Go to My Bookmarks
-      </Link>
-         <Link to="/bookmark" >
-       Go to My Bookmarks
-      </Link> */}
-      <h2>{onLoadquote}</h2>
+    <Cont>
+      {/* <Navbar /> */}
+
+      {/* <h2>{onLoadquote}</h2> */}
       <Dropdown
+        className="dropdownStyle"
         options={options}
         value={defaultOption}
         placeholder="Select an option"
@@ -108,36 +124,27 @@ export const Home = () => {
           setTagValue(e.value);
         }}
       />
-      <h2>{tagValue}</h2>
+      {/* <h2>{tagValue}</h2> */}
+      <QuoteHolder>
+        {quote != undefined ? (
+          <Quote>
+            <h2>{quote}</h2>
+            <p>~ {author}</p>
+            <button onClick={() => saveQuote(quote, author)}>Save</button>
+          </Quote>
+        ) : (
+          <Loader/>
+        )}
+      </QuoteHolder>
       <div>
-        {quote != undefined ? (
-          <div>
-            <h2>{quote}</h2>
-            <button onClick={() => saveQuote(quote)}>Save</button>
-          </div>
-        ) : (
-          <h2>Null</h2>
-        )}
+        <button
+          onClick={() => {
+            randomQuote();
+          }}
+        >
+          Random Quote
+        </button>
       </div>
-      {/* <div>
-        {quote != undefined ? (
-            
-          <div>
-            <h2>{quote}</h2>
-            <button onClick={() => saveQuote(quote)}>Save</button>
-          </div>
-        ) : (
-          <p>Null</p>
-        )}
-      </div> */}
-      <hr />
-      <button
-        onClick={() => {
-          randomQuote();
-        }}
-      >
-        Random Quote
-      </button>
-    </>
+    </Cont>
   );
 };

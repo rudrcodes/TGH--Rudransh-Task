@@ -2,7 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 const quotesInit =
   localStorage.getItem("quotes") != null
     ? JSON.parse(localStorage.getItem("quotes"))
-    : [{ id: 0, quote: "dummy quote" }];
+    : [
+        {
+          id: 0,
+          quote: "Rudransh Aggarwal developed this app",
+          author: "Rudransh Aggarwal",
+        },
+      ];
 const initialState = { quotes: quotesInit };
 // const initialState = { quotes: [] };
 
