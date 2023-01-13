@@ -1,1 +1,1 @@
-## Task of Rudransh Aggarwal for ReactJS Inter Role
+## Task of Rudransh Aggarwal for ReactJS Intern Role
