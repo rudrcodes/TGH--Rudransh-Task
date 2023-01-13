@@ -8,15 +8,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { Loader } from "../components/Loader";
 import styled from "styled-components";
 import { Navbar } from "../components/Navbar";
+import bookmarkImg from "../images/bookmark.png";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Quote = styled.div`
-  background-color: #003566;
-  /* color: #000; */
+  background: #ff4444; /* color: #000; */
   border: none;
+  color: #fff;
   border-radius: 10px;
   padding: 8px 15px;
   text-align: center;
   /* width: 80%; */
-  line-height: 1.2;
+
+  line-height: 1.6;
+  width: 875px;
+  & button {
+    background: none;
+    /* border-radius: 38px; */
+  }
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 const QuoteHolder = styled.div`
   text-align: center;
@@ -25,7 +37,7 @@ const QuoteHolder = styled.div`
 `;
 const Cont = styled.div`
   /* background-color: red; */
-  height: 60vh;
+  height: 70vh;
   width: 100%;
   position: relative;
   display: flex;
@@ -91,7 +103,9 @@ export const Home = () => {
         console.log(res.data.tags);
       })
       .catch((err) => {
-        alert(err);
+        toast.error(
+          "An Error occured!. Try again by selecting the option from the dropdown!!"
+        );
       });
 
     console.log("randomQuote");
@@ -108,13 +122,42 @@ export const Home = () => {
     console.log(savedQuoteArr);
     savedQuoteArr.push(quote);
     setSaveQuotes([...savedQuoteArr]);
+    toast.success("Quote Added in Bookmarks!!");
   };
   console.log(saveQuotes);
   return (
     <Cont>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+
       {/* <Navbar /> */}
 
       {/* <h2>{onLoadquote}</h2> */}
+
+      {/* <h2>{tagValue}</h2> */}
+      <QuoteHolder>
+        {quote != undefined ? (
+          <Quote>
+            <h2>{quote}</h2>
+            <p>~ {author}</p>
+            <button onClick={() => saveQuote(quote, author)}>
+              <img src={bookmarkImg} alt="bookmark" />
+            </button>
+          </Quote>
+        ) : (
+          <Loader />
+        )}
+      </QuoteHolder>
       <Dropdown
         className="dropdownStyle"
         options={options}
@@ -124,25 +167,13 @@ export const Home = () => {
           setTagValue(e.value);
         }}
       />
-      {/* <h2>{tagValue}</h2> */}
-      <QuoteHolder>
-        {quote != undefined ? (
-          <Quote>
-            <h2>{quote}</h2>
-            <p>~ {author}</p>
-            <button onClick={() => saveQuote(quote, author)}>Save</button>
-          </Quote>
-        ) : (
-          <Loader/>
-        )}
-      </QuoteHolder>
       <div>
         <button
           onClick={() => {
             randomQuote();
           }}
         >
-          Random Quote
+          Next Quote
         </button>
       </div>
     </Cont>
