@@ -85,6 +85,7 @@ export const Home = () => {
         // console.log(res.data.content);
         // console.log(res.data);
         setAuthor(res.data.author);
+        setId(res.data._id);
 
         // console.log(res.data.tags);
       })
