@@ -139,12 +139,6 @@ export const Home = () => {
         pauseOnHover
         theme="light"
       />
-
-      {/* <Navbar /> */}
-
-      {/* <h2>{onLoadquote}</h2> */}
-
-      {/* <h2>{tagValue}</h2> */}
       <QuoteHolder>
         {quote != undefined ? (
           <Quote>

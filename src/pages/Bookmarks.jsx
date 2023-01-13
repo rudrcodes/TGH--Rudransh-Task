@@ -6,14 +6,10 @@ import { AiFillDelete } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 
 export const Bookmarks = () => {
-  // const dispatc
   const allQuotes = useSelector((state) => state.quotes.quotes);
   const dispatch = useDispatch();
   const deleteQuoteFunc = (quoteId) => {
     dispatch(deleteQuote(quoteId));
-    // AiFillDelete
-    // localStorage.key(userId);
-    // console.log(count);
   };
   const BookComp = styled.div`
     display: flex;
@@ -27,7 +23,7 @@ export const Bookmarks = () => {
   `;
 
   const Quote = styled.div`
-    background: #ff4444; /* color: #000; */
+    background: #ff4444; 
     border: none;
     border-radius: 10px;
     padding: 8px 15px;
