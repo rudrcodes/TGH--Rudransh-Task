@@ -7,6 +7,8 @@ import React from "react";
 import { Navbar } from "./components/Navbar";
 
 function App() {
+  console.log("Hello 👋! Rudransh Aggarwal this side.");
+
   return (
     <>
       <Navbar />

@@ -55,7 +55,7 @@ export const Home = () => {
   const [saveQuotes, setSaveQuotes] = useState([]);
   //Tags List
   const [tagsList, setTagsList] = useState([]);
-  console.log(saveQuotes);
+  // console.log(saveQuotes);
   const loadOptions = () => {
     const tagArray = [];
     axios
@@ -65,7 +65,7 @@ export const Home = () => {
           tagArray.push(tagObj["name"]);
           // console.log(tagObj["name"]);
         });
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -81,11 +81,11 @@ export const Home = () => {
       .get("https://api.quotable.io/random")
       .then((res) => {
         setQuote(res.data.content);
-        console.log(res.data.content);
-        console.log(res.data);
+        // console.log(res.data.content);
+        // console.log(res.data);
         setAuthor(res.data.author);
 
-        console.log(res.data.tags);
+        // console.log(res.data.tags);
       })
       .catch((err) => {
         alert(err);
@@ -99,8 +99,8 @@ export const Home = () => {
         setQuote(res.data.content);
         setAuthor(res.data.author);
 
-        console.log(res.data.content);
-        console.log(res.data.tags);
+        // console.log(res.data.content);
+        // console.log(res.data.tags);
       })
       .catch((err) => {
         toast.error(
@@ -108,7 +108,7 @@ export const Home = () => {
         );
       });
 
-    console.log("randomQuote");
+    // console.log("randomQuote");
   };
   const savedQuoteArr = [];
   const saveQuote = (quote) => {
@@ -119,12 +119,12 @@ export const Home = () => {
         author: author,
       })
     );
-    console.log(savedQuoteArr);
+    // console.log(savedQuoteArr);
     savedQuoteArr.push(quote);
     setSaveQuotes([...savedQuoteArr]);
     toast.success("Quote Added in Bookmarks!!");
   };
-  console.log(saveQuotes);
+  // console.log(saveQuotes);
   return (
     <Cont>
       <ToastContainer
